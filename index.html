@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brandon Adkins &middot; Discover. Create. Educate.</title>
+<meta name="description" content="Brandon Adkins, PharmD. Pharmacist and biochemist, over ten years in clinical toxicology and drug information, building tools and teaching toward better healthcare." />
+<link rel="canonical" href="https://bcadkins01.github.io/" />
+<meta name="theme-color" content="#fbfbf9" />
+<!-- Inline so there is no file to upload: the verb corners and the prussian period. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23fbfbf9'/%3E%3Cpath d='M7 17V7h10M25 15v10H15' fill='none' stroke='%2317150f' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%231d4e89'/%3E%3C/svg%3E" />
+<!-- Content starts visible; this class is what lets the reveal fade hide it,
+     so a visitor or crawler without JS still gets the whole page. -->
+<script>document.documentElement.classList.add('js');</script>
+
+<!-- social preview -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Brandon Adkins &middot; Discover. Create. Educate." />
+<meta property="og:description" content="Pharmacist and biochemist. Over ten years of clinical practice, and a long list of things worth building." />
+<meta property="og:url" content="https://bcadkins01.github.io/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://bcadkins01.github.io/images/og.png" />
+<meta property="og:image:alt" content="Brandon Adkins, PharmD. Discover. Create. Educate." />
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person",
+ "name":"Brandon Adkins","honorificSuffix":"PharmD",
+ "jobTitle":"Clinical toxicologist, pharmacist, and data scientist",
+ "url":"https://bcadkins01.github.io/",
+ "email":"mailto:bcadkins01@gmail.com",
+ "knowsAbout":["Clinical toxicology","Drug information","Clinical pharmacology","Pharmacokinetics","Pharmacogenomics","Clinical decision support","Biochemistry","Data science","Drug discovery","Cheminformatics","Generative chemistry"],
+ "sameAs":["https://github.com/bcadkins01","https://www.linkedin.com/in/brandon-adkins-pharmd/","https://huggingface.co/bcadkins01","https://alleghenybiosciences.ai/about/"]}
+</script>
+
+<!-- One file: markup, styles, hero animation. Every visual knob is in :root
+     below, each with a note. Everything else is written up in README.md. -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    /* --- palette: ink on paper, blue = alive/clickable only --- */
+    --ink:      #17150f;
+    --ink-soft: #3a372e;
+    --paper:    #fbfbf9;
+    --paper-2:  #f2f0e9;
+    --muted:    #8a867c;
+    --rule:     #e4e1d8;
+    --accent:   #1d4e89;   /* prussian, reserved for live/links */
+    --accent-2: #2e6db4;   /* hover */
+
+    /* --- type --- */
+    --display: "Bricolage Grotesque", system-ui, sans-serif;
+    --body:    "IBM Plex Sans", system-ui, sans-serif;
+    --mono:    "IBM Plex Mono", ui-monospace, monospace;
+
+    --maxw: 1080px;
+    --pad: clamp(1.25rem, 4vw, 3rem);
+
+    /* --- paper texture. Both layers are desaturated, which is what makes them
+           read as paper instead of digital noise. --- */
+    --grain-opacity: 0.05;
+    --mottle-opacity: 0.045;
+
+    /* --- hero texture: falling glyphs and DNA. Hero only, faded to nothing
+           before the section ends. --- */
+    --tx-intensity: 0.15;
+    --tx-fade: 0.72;
+    --tx-density: 10;
+    /* per-element weight, multiplies --tx-intensity */
+    --tx-code: 1;      /* falling 0/1 columns */
+    --tx-dna: 2.4;     /* helices; raise to make DNA pop harder */
+    --tx-mol: 1.8;     /* molecules */
+    --tx-dna-colour: 0.55;  /* share of base pairs drawn in colour; 0 = all ink */  }
+
+  * { box-sizing: border-box; }
+  /* Hidden popover cards still take up layout, and on a phone they widened
+     the page past the screen. Mobile Chrome needed it on both html and body
+     before it stopped. keepCardsOnScreen in the script handles the cards
+     themselves; this is the backstop. */
+  html, body { overflow-x: clip; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: clamp(1rem, 0.95rem + 0.2vw, 1.075rem);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  /* ---------- paper, two generated layers, no image files ----------
+     ::before is the fibre, ::after is the newsprint speckle. Both run through
+     feColorMatrix saturate=0, which is the one change that makes it read as
+     paper rather than screen noise. Opacity knobs are in :root. */
+  body::before,
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+  body::before {
+    z-index: 9998;
+    opacity: var(--mottle-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.008' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.9'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+    background-size: 620px 620px;
+  }
+  body::after {
+    z-index: 9999;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 190px 190px;
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-2); }
+  a:focus-visible,
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--pad); }
+
+  /* ---------- shared section furniture ---------- */
+  .section { padding-block: clamp(3.5rem, 8vw, 6rem); scroll-margin-top: 2rem; }
+  .section + .section { border-top: 1px solid var(--rule); }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6ch;
+    margin: 0 0 1.4rem;
+  }
+  .eyebrow::before { content: "\2310"; color: var(--ink); font-weight: 700; }
+  .eyebrow::after  { content: "\2319"; color: var(--ink); font-weight: 700; }
+
+  h2.head {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(1.7rem, 1.2rem + 2vw, 2.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.5rem;
+  }
+
+  /* =========================================================
+     HERO
+     ========================================================= */
+  .hero { padding-block: clamp(4rem, 11vw, 8rem) clamp(2.5rem, 6vw, 4rem); position: relative; z-index: 1; overflow: hidden; }
+
+  /* decorative canvas: glyphs + helices + molecules, fading out down the hero */
+  .hero-tx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  .hero > .wrap { position: relative; z-index: 1; }
+
+  /* letterhead line: the only place the name is set, so it has to be here */
+  .byline {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 clamp(1.75rem, 5vw, 3rem);
+    line-height: 2;
+  }
+  .byline > b { color: var(--ink); font-weight: 500; }
+  .byline .sep { padding: 0 0.55ch; color: var(--rule); }
+
+  /* Credentials: you read the abbreviation, the institution is there if you
+     want it. Real buttons, so tap and keyboard work too. */
+  .cred { position: relative; display: inline-block; }
+  /* Unmarked on purpose: they look like the rest of the letterhead, and the
+     card is a reward for a curious cursor rather than an advertised control.
+     Keyboard users still get the focus ring. */
+  .cred-t {
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: inherit;
+  }
+  .cred-t:hover { color: var(--accent); }
+
+  .cred-pop {
+    position: absolute;
+    top: calc(100% + 0.85rem);
+    left: 50%;
+    transform: translate(calc(-50% + var(--nudge, 0px)), -4px);
+    z-index: 5;
+    width: max-content;
+    max-width: min(17rem, 62vw);
+    background: var(--paper);
+    border: 1px solid var(--accent);
+    padding: 0.6rem 0.8rem;
+    font-family: var(--body);
+    font-size: 0.82rem;
+    letter-spacing: 0;
+    text-transform: none;
+    line-height: 1.4;
+    color: var(--ink-soft);
+    box-shadow: 0 6px 20px rgba(23, 21, 15, 0.09);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .18s ease, transform .18s ease;
+    pointer-events: none;   /* an open card must not swallow a tap on the next word */
+  }
+  .cred-pop b { display: block; color: var(--ink); font-weight: 600; }
+  .cred-pop .dot { color: var(--accent); }
+
+  /* the notch, borrowed from the same prussian outline. It moves against the
+     card's nudge (see keepCardsOnScreen) so it still points at the word. */
+  .cred-pop::before {
+    content: "";
+    position: absolute;
+    top: -5px; left: calc(50% - var(--nudge, 0px));
+    width: 8px; height: 8px;
+    margin-left: -4px;
+    background: var(--paper);
+    border-left: 1px solid var(--accent);
+    border-top: 1px solid var(--accent);
+    transform: rotate(45deg);
+  }
+
+  .cred:hover .cred-pop,
+  .cred:focus-within .cred-pop {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(calc(-50% + var(--nudge, 0px)), 0);
+  }
+
+  .verbs {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 2.75rem);
+    margin: 0 0 clamp(2rem, 5vw, 3rem);
+  }
+  .verb:nth-child(1) { justify-self: start; }
+  .verb:nth-child(2) { justify-self: center; }
+  .verb:nth-child(3) { justify-self: end; }
+
+  .verb {
+    position: relative;
+    display: inline-block;
+    padding: 0.55em 0.7em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .verb-word {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2.75rem, 8vw + 1rem, 6.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    display: block;
+  }
+  .verb-word .dot { color: var(--accent); }
+
+  .verb .corner {
+    position: absolute;
+    width: clamp(26px, 4vw, 46px);
+    height: clamp(26px, 4vw, 46px);
+    stroke: var(--ink);
+    stroke-width: 4;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .verb .corner.tl { top: 0; left: 0; }
+  .verb .corner.br { bottom: 0; right: 0; transform: rotate(180deg); }
+  .verb .corner path { stroke-dasharray: 60; stroke-dashoffset: 0; }
+  .js .verb .corner path { stroke-dashoffset: 60; }
+  .verb:hover .corner { stroke: var(--accent); }
+
+  .lede {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.15rem, 1rem + 1vw, 1.6rem);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    max-width: 40ch;
+    margin: 0 0 0.75rem;
+  }
+  .lede-sub { max-width: 56ch; color: var(--ink-soft); margin: 0; }
+
+  /* =========================================================
+     ABOUT
+     ========================================================= */
+  .about-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+  @media (min-width: 760px) {
+    .about-grid { grid-template-columns: 1.4fr 1fr; gap: clamp(2rem, 5vw, 4rem); }
+  }
+  .about-grid p { margin: 0 0 1rem; max-width: 60ch; }
+
+  /* The applications list: a Python list literal dropped into an English
+     sentence. Each of the five words is a button carrying one idea, so "any
+     number" gets demonstrated rather than asserted. Word-to-idea mapping is
+     arbitrary on purpose; 
+
+     Static markup, not a loop. It's body copy: it has to survive with JS off
+     and be there for a crawler. To add an idea, copy an .app block and give
+     its .app-pop a unique id the button points at.
+
+         applications = [idea for idea in curiosity]                        */
+  .apps { font-family: var(--mono); font-size: 0.92em; }
+  .apps .brk { color: var(--accent); }
+  .app { position: relative; display: inline-block; }
+  /* Marked, unlike the credential buttons: five invisible targets buried in a
+     paragraph is a target nobody finds. Prussian is the mark, which is just
+     the palette rule working. Resting state is --accent, so hover moves to
+     --accent-2. */
+  .app-t {
+    font: inherit;
+    color: var(--accent);
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  .app-t:hover { color: var(--accent-2); }
+
+  .app-pop {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 50%;
+    transform: translate(calc(-50% + var(--nudge, 0px)), -4px);
+    z-index: 5;
+    width: max-content;
+    max-width: min(18rem, 68vw);
+    background: var(--paper);
+    border: 1px solid var(--accent);
+    padding: 0.6rem 0.8rem;
+    font-family: var(--body);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    box-shadow: 0 6px 20px rgba(23, 21, 15, 0.09);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .18s ease, transform .18s ease;
+    pointer-events: none;   /* an open card must not swallow a tap on the next word */
+  }
+  .app-pop b { display: block; color: var(--ink); font-weight: 600; }
+  .app-pop .dot { color: var(--accent); }
+  .app-pop::before {
+    content: "";
+    position: absolute;
+    top: -5px; left: calc(50% - var(--nudge, 0px));
+    width: 8px; height: 8px;
+    margin-left: -4px;
+    background: var(--paper);
+    border-left: 1px solid var(--accent);
+    border-top: 1px solid var(--accent);
+    transform: rotate(45deg);
+  }
+  .app:hover .app-pop,
+  .app:focus-within .app-pop {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(calc(-50% + var(--nudge, 0px)), 0);
+  }
+  /* Which word lands near an edge depends on how the line wraps, so the
+     sideways nudge is measured in the script rather than guessed here. */
+  @media (prefers-reduced-motion: reduce) {
+    .app-pop { transition: none; }
+  }
+  .facts { font-family: var(--mono); font-size: 0.85rem; line-height: 2; color: var(--ink-soft); }
+  .facts dt { color: var(--muted); }
+  .facts dd { margin: 0 0 0.9rem; }
+
+  /* Hidden hobbies row. Holds its space so the panel height never jumps,
+     fades in when the panel is hovered, focused, or tapped. */
+  .facts .secret { opacity: 0; transition: opacity .5s ease; }
+  .facts .secret dt, .facts dt.secret { color: var(--accent); }
+  .facts dd.secret { color: var(--accent); }
+  .facts:hover .secret,
+  .facts:focus-within .secret { opacity: 1; }
+
+  /* Touch devices have no hover, so show it outright rather than hide it forever. */
+  @media (hover: none) {
+    .facts .secret { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .facts .secret { transition: none; }
+  }
+
+  /* =========================================================
+     PROJECTS
+     ========================================================= */
+  .proj-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  @media (min-width: 760px) { .proj-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .card {
+    border: 1px solid var(--rule);
+    background: #fff;
+    padding: clamp(1.25rem, 3vw, 1.9rem);
+    display: flex; flex-direction: column; gap: 0.9rem;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .card:hover { border-color: var(--ink); transform: translateY(-3px); }
+  .card.feature { grid-column: 1 / -1; }
+  .card-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .card h3 { font-family: var(--display); font-weight: 700; font-size: 1.35rem; margin: 0; letter-spacing: -0.01em; }
+  .card.feature h3 { font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2rem); }
+  .card p { margin: 0; color: var(--ink-soft); max-width: 62ch; }
+
+  /* feature card only: the mono kicker under the title. */
+  .card-sub {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--muted); margin: -0.55rem 0 0 !important;
+  }
+  /* Parked, not dead. Pulled off the H:L card 9 Aug 2026, kept because a
+     three-fact strip is still the right shape if that card ever needs one. */
+  .spec { display: grid; gap: 0.9rem; margin: 0; padding-top: 1rem; border-top: 1px solid var(--rule); }
+  @media (min-width: 620px) { .spec { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; } }
+  .spec > div { display: grid; gap: 0.25rem; align-content: start; }
+  .spec dt { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .spec dd { margin: 0; font-size: 0.88rem; color: var(--ink-soft); }
+  .card-links { display: flex; gap: 1.25rem; margin-top: auto; padding-top: 0.4rem; font-family: var(--mono); font-size: 0.82rem; flex-wrap: wrap; }
+  .card-links a { display: inline-flex; align-items: center; gap: 0.4ch; }
+  .card-links a::after { content: "\2197"; font-size: 0.9em; }
+
+  .live, .status { display: inline-flex; align-items: center; gap: 0.5ch; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .live { color: var(--accent); }
+  .status { color: var(--muted); }
+  .live .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 rgba(29,78,137,.5); animation: pulse 2.2s infinite; }
+  .status .dotm { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--muted); }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(29,78,137,.5)} 70%{box-shadow:0 0 0 7px rgba(29,78,137,0)} 100%{box-shadow:0 0 0 0 rgba(29,78,137,0)} }
+
+  /* =========================================================
+     EDUCATE + BEYOND (art gallery, writing)
+     ========================================================= */
+  .teach-list { list-style: none; margin: 1.75rem 0 0; padding: 0; }
+  .teach-list li { padding: 1.1rem 0; border-top: 1px solid var(--rule); display: grid; gap: 0.3rem; }
+  .teach-list li:last-child { border-bottom: 1px solid var(--rule); }
+  .teach-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem 1.25rem; flex-wrap: wrap; }
+  .teach-title { font-family: var(--display); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; }
+  .teach-title a::after { content: " \2197"; font-size: 0.82em; color: var(--muted); }
+  .teach-meta { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.03em; }
+  .teach-note { font-size: 0.92rem; color: var(--ink-soft); max-width: 64ch; margin: 0.15rem 0 0; }
+
+  .beyond { margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--rule); }
+  .beyond .eyebrow { margin-bottom: 1rem; }
+  .beyond p { color: var(--ink-soft); max-width: 60ch; margin: 0 0 0.5rem; }
+
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; margin-top: 1.5rem; }
+  @media (min-width: 640px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
+  .gallery figure { margin: 0; position: relative; overflow: hidden; background: var(--paper-2); aspect-ratio: 4 / 5; }
+  .gallery img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .45s ease; }
+  .gallery figure:hover img { transform: scale(1.04); }
+
+  /* Not dead: the line it styles is parked in a comment in the Beyond block. */
+  .writing { margin-top: 2rem; font-size: 0.95rem; color: var(--ink-soft); }
+
+  /* =========================================================
+     FOOTER
+     ========================================================= */
+  footer { border-top: 1px solid var(--rule); padding-block: 3rem; }
+  .foot { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: baseline; justify-content: space-between; }
+  .foot .sig { font-family: var(--display); font-weight: 800; font-size: 1.4rem; letter-spacing: -0.01em; }
+  .foot .foot-links { font-family: var(--mono); font-size: 0.85rem; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .foot .disclaim { width: 100%; font-size: 0.78rem; color: var(--muted); margin-top: 1rem; max-width: 70ch; }
+
+  /* =========================================================
+     load animation + reduced motion
+     ========================================================= */
+  .js .reveal { opacity: 0; transform: translateY(14px); }
+  .js .reveal.in { opacity: 1; transform: none; transition: opacity .7s ease, transform .7s ease; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .verb .corner path { stroke-dashoffset: 0 !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <canvas class="hero-tx" id="hero-tx" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <p class="byline">
+      <b>Brandon Adkins</b><span class="sep">&middot;</span><span class="cred"><button type="button" class="cred-t" aria-describedby="cred-pharmd">PharmD</button><span class="cred-pop" role="tooltip" id="cred-pharmd"><b>Doctor of Pharmacy<span class="dot">.</span></b>University of North Carolina at Chapel Hill</span></span><span class="sep">&middot;</span><span class="cred"><button type="button" class="cred-t" aria-describedby="cred-biochem">MS</button><span class="cred-pop" role="tooltip" id="cred-biochem"><b>Biochemistry<span class="dot">.</span></b>University of Kentucky</span></span><span class="sep">&middot;</span><span class="cred"><button type="button" class="cred-t" aria-describedby="cred-ds">MS</button><span class="cred-pop" role="tooltip" id="cred-ds"><b>Data Science<span class="dot">.</span></b>Eastern University</span></span>
+    </p>
+    <nav class="verbs" aria-label="Primary">
+      <a class="verb" href="#about">
+        <svg class="corner tl" viewBox="0 0 46 46" aria-hidden="true"><path d="M4 42 L4 4 L42 4" /></svg>
+        <svg class="corner br" viewBox="0 0 46 46" aria-hidden="true"><path d="M4 42 L4 4 L42 4" /></svg>
+        <span class="verb-word">Discover<span class="dot">.</span></span>
+      </a>
+      <a class="verb" href="#create">
+        <svg class="corner tl" viewBox="0 0 46 46" aria-hidden="true"><path d="M4 42 L4 4 L42 4" /></svg>
+        <svg class="corner br" viewBox="0 0 46 46" aria-hidden="true"><path d="M4 42 L4 4 L42 4" /></svg>
+        <span class="verb-word">Create<span class="dot">.</span></span>
+      </a>
+      <a class="verb" href="#educate">
+        <svg class="corner tl" viewBox="0 0 46 46" aria-hidden="true"><path d="M4 42 L4 4 L42 4" /></svg>
+        <svg class="corner br" viewBox="0 0 46 46" aria-hidden="true"><path d="M4 42 L4 4 L42 4" /></svg>
+        <span class="verb-word">Educate<span class="dot">.</span></span>
+      </a>
+    </nav>
+
+    <!-- This is the page's only h1. Keep the name and the role in the first screen. -->
+    <h1 class="lede reveal">Pharmacist, biochemist, and data scientist. I build along my interests, which tend to land in healthcare, or in science that explores what's possible.</h1>
+  </div>
+</header>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="section" id="about">
+  <div class="wrap">
+    <p class="eyebrow">About me</p>
+    <div class="about-grid">
+      <div class="reveal">
+        <h2 class="head">An uncommon overlap: clinic, bench, and code.</h2>
+        <p>The path here wasn't a straight line. Enzyme engineering and assay design on an industry bench, then pharmacy school, a community counter, and over ten years of clinical toxicology, first at a poison center and then on a consult desk. Fifteen thousand consultations, give or take. A detour through web development in 2018 that taught me I liked the data more than the interface, and a master's in data science in 2024. Most of what I make now sits somewhere in that overlap.</p>
+        <!-- The bracketed list is interactive: five words, five ideas. See .apps in the stylesheet. -->
+        <p>My interests run wider than the projects below: immune system monitoring, an external immune system, engineered microorganisms for <span class="apps"><span class="brk">[</span><span class="app"><button type="button" class="app-t" aria-describedby="app-1">any</button><span class="app-pop" role="tooltip" id="app-1"><b>Drug delivery<span class="dot">.</span></b>A microbe that manufactures the drug when and where it's needed.</span></span> <span class="app"><button type="button" class="app-t" aria-describedby="app-2">number</button><span class="app-pop" role="tooltip" id="app-2"><b>Fresher breath and fewer cavities<span class="dot">.</span></b>Swap the lactic acid producing strains for ones that give off pleasant smelling by-products.</span></span> <span class="app"><button type="button" class="app-t" aria-describedby="app-3">of</button><span class="app-pop" role="tooltip" id="app-3"><b>Sunscreen<span class="dot">.</span></b>Some animals already make their own UV shields. Human skin could take a page from that playbook.</span></span> <span class="app"><button type="button" class="app-t" aria-describedby="app-4">potential</button><span class="app-pop" role="tooltip" id="app-4"><b>A gut biosensor<span class="dot">.</span></b>Bacteria that recognize inflammation or early signs of disease and report out in something measurable from baseline.</span></span> <span class="app"><button type="button" class="app-t" aria-describedby="app-5">applications</button><span class="app-pop" role="tooltip" id="app-5"><b>Plastic degradation<span class="dot">.</span></b>Microbes and enzymes that eat plastic and the other environmental "stuffs" nobody wants.</span></span><span class="brk">]</span></span>, real-time monitoring and mapping of arbovirus populations, artificial photosynthesis, <a href="https://medium.com/@bcadkins01/my-personalized-medication-fantasy-with-3d-printing-a53d47189683">automated personalized medication</a>, and better ways to teach the fundamentals that power any of those ideas.</p>
+      </div>
+      <dl class="facts reveal">
+        <dt>Based in</dt><dd>Lexington, KY</dd>
+        <dt>Trained in</dt><dd>Pharmacy (PharmD) &middot; Biochemistry (MS) &middot; Data Science (MS)</dd>
+        <dt>Knows cold</dt><dd>Toxicology &middot; Drug information &middot; Pharmacokinetics &middot; Pharmacogenomics</dd>
+        <dt>Reaches for</dt><dd>Python &middot; RDKit &middot; scikit-learn &middot; Hugging Face &middot; Claude Code</dd>
+        <dt>Reaches for, less happily</dt><dd>R &middot; PostgreSQL &middot; HTML/CSS/JS &middot; logs</dd>
+        <dt class="secret">Hobbies</dt><dd class="secret">Fishing &middot; art &middot; pinball &middot; travel &middot; cooking</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROJECTS ===================== -->
+<section class="section" id="create">
+  <div class="wrap">
+    <p class="eyebrow">Selected projects</p>
+    <h2 class="head reveal">Things I've built.</h2>
+    <div class="proj-grid">
+
+      <!-- Signature project. Full grid width via .card.feature. -->
+      <article class="card feature reveal">
+        <div class="card-top">
+          <span class="live"><span class="pulse"></span> live</span>
+        </div>
+        <h3>H:L (hit to lead)</h3>
+        <p class="card-sub">Allegheny Biosciences &middot; drug discovery platform</p>
+        <p>The drug discovery platform I run at Allegheny Biosciences. It puts a connected set of open source drug discovery tools under one roof, so designing molecules does not start with setting up environments and cloning repos. What someone points it at is up to them. Antibiotic resistance and pandemic preparedness are what I'm interested in, and the beta-lactam families came first for that reason.</p>
+
+        <div class="card-links">
+          <a href="https://alleghenybiosciences.ai/">Open the platform</a>
+          <a href="https://alleghenybiosciences.ai/about/">Why it exists</a>
+        </div>
+      </article>
+
+
+      <article class="card reveal">
+        <div class="card-top">
+          <span class="status"><span class="dotm"></span> planned</span>
+        </div>
+        <h3>Antidote 101</h3>
+        <p>Venomous and poisonous animals have fascinated me since I was a kid, and the poison center put clinical experience behind that curiosity. This is where the two meet. Common poisonings get a simplified entry. North American envenomation gets the deep dive: maps, the chemistry and structures behind the toxins along with antidotes.</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-top">
+          <span class="live"><span class="pulse"></span> live</span>
+        </div>
+        <h3>Molecule Viewer</h3>
+        <p>A small browser tool for viewing and inspecting molecular structures. Nothing clever. I wanted something practical that loaded instantly.</p>
+        <div class="card-links">
+          <a href="https://huggingface.co/spaces/bcadkins01/molecule-viewer">Open tool</a>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-top">
+          <span class="live"><span class="pulse"></span> live</span>
+        </div>
+        <h3>Drug-Likeness Classifier</h3>
+        <p>My data science master's capstone, built from scratch. An XGBoost model that predicts drug-likeness from a SMILES string, using RDKit Morgan fingerprints and Lipinski descriptors as features. Paste a structure and it returns the prediction, the computed properties, and a rendered molecule. Small model, but the whole path from a chemical input string to a served prediction is in there.</p>
+        <div class="card-links">
+          <a href="https://huggingface.co/spaces/bcadkins01/Drug_Classifier">Demo</a>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-top">
+          <span class="live"><span class="pulse"></span> live</span>
+        </div>
+        <h3>Beta-Lactam Generator</h3>
+        <p>A "can I actually do this" experiment, where the question was less about chemistry. Train a generative model on beta-lactam scaffolds, then get it deployed and hosted somewhere anyone could use it. Early runs generated molecules closer to gasoline and jet fuel. What is working now is beta-lactams, albeit mediocre ones. That is fine. Getting the whole path working was the win, and output quality is the part that practice fixes. Better beta-lactam models now live on H:L, free to use.</p>
+        <div class="card-links">
+          <a href="https://huggingface.co/spaces/bcadkins01/beta_lactam_demo">Demo</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EDUCATE ===================== -->
+<section class="section" id="educate">
+  <div class="wrap">
+    <p class="eyebrow">Teaching</p>
+    <h2 class="head reveal">Explaining the why.</h2>
+    <p class="lede-sub reveal">Teaching keeps me honest. It tests what I actually understand instead of what I think I know, and if I can't explain something well enough to teach it, I don't understand it well enough yet.</p>
+
+    <ul class="teach-list reveal">
+      <li>
+        <div class="teach-row">
+          <span class="teach-title"><a href="https://www.udemy.com/course/data-science-for-healthcare/">Data Science for Healthcare</a></span>
+          <span class="live"><span class="pulse"></span> live</span>
+        </div>
+        <span class="teach-meta">online course &middot; Udemy</span>
+        <p class="teach-note">A practical and hands on introduction to data science in a clinical context, built for those with little or no coding background.</p>
+      </li>
+      <li>
+        <div class="teach-row">
+          <span class="teach-title">Commonly Used Drugs: What Every Patient Should Know</span>
+          <span class="status"><span class="dotm"></span> in progress</span>
+        </div>
+        <span class="teach-meta">book &middot; plain-language, patient-facing &middot; working title</span>
+        <p class="teach-note">A plain-language guide to the medications people are most likely to be handed: what the drug does, why it was chosen, and which side effects to watch for. Written for patients, not clinicians.</p>
+      </li>
+      <li>
+        <div class="teach-row">
+          <span class="teach-title">Pharmacology study resources</span>
+          <span class="status"><span class="dotm"></span> planned</span>
+        </div>
+        <span class="teach-meta">book / course / app &middot; for students &amp; professionals</span>
+        <p class="teach-note">A set of resources for learning pharmacology properly: likely a book, a course, and an app. Genuinely early. The shape isn't settled and a realistic launch is 2027&ndash;2028.</p>
+      </li>
+    </ul>
+   
+
+      <div class="beyond reveal">
+      <p class="eyebrow">Beyond the lab</p>
+      <p>I like making collages. It runs on the same creativity and instinct as the rest of my work, just pointed at a different medium.</p>
+
+      <!-- Gallery: images/art/1.jpg through 12.jpg, 1000x1250, 4:5 to match
+           the frames exactly. No titles, captions or alt text, on purpose. -->
+      <div class="gallery">
+        <figure><img src="images/art/1.jpg"  alt="" width="1000" height="1250" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/art/2.jpg"  alt="" width="1000" height="1250" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/art/3.jpg"  alt="" width="1000" height="1250" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/art/4.jpg"  alt="" width="1000" height="1250" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/art/5.jpg"  alt="" width="1000" height="1250" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/art/6.jpg"  alt="" width="1000" height="1250" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/art/7.jpg"  alt="" width="1000" height="1250" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/art/8.jpg"  alt="" width="1000" height="1250" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/art/9.jpg"  alt="" width="1000" height="1250" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/art/10.jpg" alt="" width="1000" height="1250" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/art/11.jpg" alt="" width="1000" height="1250" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/art/12.jpg" alt="" width="1000" height="1250" loading="lazy" decoding="async"></figure>
+      </div>
+
+      
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap foot">
+    <span class="sig">Discover. Create. Educate.</span>
+    <nav class="foot-links" aria-label="Contact">
+      <a href="mailto:bcadkins01@gmail.com">Email</a>
+      <a href="https://github.com/bcadkins01">GitHub</a>
+      <a href="https://huggingface.co/bcadkins01">Hugging Face</a>
+      <a href="https://www.linkedin.com/in/brandon-adkins-pharmd/">LinkedIn</a>
+    </nav>
+    <p class="disclaim">Any clinical tools linked here are for educational and informational purposes only and are not medical advice.</p>
+  </div>
+</footer>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  window.addEventListener('load', () => {
+    if (reduce) return;
+    document.querySelectorAll('.verb .corner path').forEach((p, i) => {
+      p.style.transition = 'stroke-dashoffset .7s ease';
+      p.style.transitionDelay = (0.15 * Math.floor(i / 2)) + 's';
+      requestAnimationFrame(() => { p.style.strokeDashoffset = '0'; });
+    });
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* Keep the credential and applications cards on screen. CSS centres each
+     card under its word; near an edge this nudges it sideways, and the notch
+     moves the other way. Measured from the word and the card's width, not the
+     card's position, because the card may be mid-transition. */
+  (function keepCardsOnScreen() {
+    const GUTTER = 12;
+    function place(host) {
+      const pop = host.querySelector('.cred-pop, .app-pop');
+      if (!pop) return;
+      const r = host.getBoundingClientRect();
+      const half = pop.offsetWidth / 2;
+      const mid = r.left + r.width / 2;
+      const vw = document.documentElement.clientWidth;
+      let d = 0;
+      if (mid - half < GUTTER) d = GUTTER - (mid - half);
+      else if (mid + half > vw - GUTTER) d = (vw - GUTTER) - (mid + half);
+      pop.style.setProperty('--nudge', Math.round(d) + 'px');
+    }
+    const hosts = document.querySelectorAll('.cred, .app');
+    /* place them all up front too, so the hidden ones never widen the page */
+    const placeAll = () => hosts.forEach(place);
+    hosts.forEach(h => {
+      h.addEventListener('pointerenter', () => place(h));
+      h.addEventListener('focusin', () => place(h));
+    });
+    placeAll();
+    document.fonts && document.fonts.ready.then(placeAll);
+    let pt;
+    window.addEventListener('resize', () => { clearTimeout(pt); pt = setTimeout(placeAll, 150); });
+  })();
+
+  /* ---------------------------------------------------------------
+     HERO TEXTURE
+     Falling code glyphs and DNA helices, ink on paper, fading to nothing
+     before the hero ends. Tune it with the
+     --tx-* variables in :root; no need to touch this code.
+     Pauses when the hero scrolls away; static single frame when the
+     visitor prefers reduced motion.
+     --------------------------------------------------------------- */
+  (function heroTexture() {
+    const cv = document.getElementById('hero-tx');
+    if (!cv || !cv.getContext) return;
+
+    const css = (n, d) => {
+      const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(n));
+      return isNaN(v) ? d : v;
+    };
+    const INTENSITY = css('--tx-intensity', 0.15);
+    const FADE      = css('--tx-fade', 0.72);
+    const DENSITY   = css('--tx-density', 10);
+    const W_CODE    = css('--tx-code', 1);
+    const W_DNA     = css('--tx-dna', 2.4);
+    const W_MOL     = css('--tx-mol', 1.8);
+    const DNA_COLOUR = css('--tx-dna-colour', 0.45);
+    if (INTENSITY <= 0) return;
+
+    const INK = '#17150f', ACCENT = '#1d4e89', TAU = Math.PI * 2;
+    const rnd  = (a, b) => a + Math.random() * (b - a);
+    /* mostly binary, with the occasional hex nibble so it isn't too regular */
+    const HEX = '23456789ABCDEF';
+    const glyph = () => Math.random() < 0.88
+      ? (Math.random() < 0.5 ? '0' : '1')
+      : HEX[(Math.random() * HEX.length) | 0];
+
+
+    const MOL_SRC = [];
+
+    const MOL_LEVELS = [1, 0.62, 0.38];   /* near, middle, far */
+    const MOL_MIN = 78, MOL_MAX = 130;    /* long edge on screen, px */
+
+    /* Four bases, classic assignment, held just short of full saturation so
+       they read as inks rather than screen colours. Cytosine reuses the
+       site's prussian accent. A coloured pair is also drawn a little heavier
+       than an ink one (COL_LIFT). That carries the colour further than
+       saturation alone, without making the whole helix louder. */
+    const BASE = { A: '#3f7d4e', T: '#b04a36', G: '#c08a1e', C: '#1d4e89' };
+    const PAIRS = [['A','T'], ['T','A'], ['G','C'], ['C','G']];
+    const COL_LIFT = 1.5;
+
+    const art = [];
+
+    const ctx = cv.getContext('2d');
+    let W = 0, H = 0, cols = [], helices = [], mols = [], raf = null;
+
+    function fade(y) {
+      const f = 1 - (y / (H * FADE));
+      return f < 0 ? 0 : (f > 1 ? 1 : f * f);
+    }
+
+    function newMol(above) {
+      const m = {
+        im: null, w: 0, h: 0,
+        len: rnd(MOL_MIN, MOL_MAX),
+        lvl: MOL_LEVELS[(Math.random() * MOL_LEVELS.length) | 0],
+        x: 0,
+        y: above ? rnd(-140, -60) : rnd(-H * 0.5, H * 0.7),
+        sp: rnd(0.1, 0.3),
+        rot: rnd(0, TAU),
+        vr: rnd(-0.0016, 0.0016)
+      };
+      /* smaller and fainter ones drift slower, which reads as further away */
+      m.sp *= 0.7 + 0.5 * m.lvl;
+      return m;
+    }
+
+    /* attach artwork once it has loaded, and size it from its own aspect */
+    function dressMol(m) {
+      const im = art[(Math.random() * art.length) | 0];
+      const nw = im.naturalWidth, nh = im.naturalHeight;
+      if (!nw || !nh) return false;
+      const k = m.len / Math.max(nw, nh);
+      m.im = im; m.w = nw * k; m.h = nh * k;
+      const half = Math.max(m.w, m.h) / 2;
+      m.x = rnd(half + 4, Math.max(half + 10, W - half - 4));
+      return true;
+    }
+
+    function newHelix(above) {
+      const len = rnd(120, 200), step = 5;
+      /* the sequence is fixed when the helix is born, not rolled per frame,
+         otherwise the colours strobe */
+      const seq = [];
+      for (let i = 0, n = Math.ceil(len / (step * 3)) + 1; i < n; i++) {
+        const p = PAIRS[(Math.random() * PAIRS.length) | 0];
+        const lit = Math.random() < DNA_COLOUR;
+        seq.push({ l: lit ? BASE[p[0]] : INK, r: lit ? BASE[p[1]] : INK, lift: lit ? COL_LIFT : 1 });
+      }
+      return {
+        x: rnd(40, Math.max(60, W - 40)),
+        y: above ? rnd(-len - 50, -len) : rnd(-H * 0.5, H * 0.5),
+        len, seq, sp: rnd(0.12, 0.3), ph: rnd(0, TAU),
+        amp: rnd(11, 17), w: rnd(1.1, 1.5)
+      };
+    }
+
+    function seed() {
+      cols = []; helices = []; mols = [];
+      const fs = 13, n = Math.floor(W / fs);
+      for (let c = 0; c < n; c++) {
+        if (Math.random() > DENSITY / 16) continue;
+        cols.push({ x: c * fs + 2, y: rnd(-H, H * 0.6), sp: rnd(0.18, 0.55) });
+      }
+      for (let i = 0, hn = Math.max(1, Math.round(DENSITY / 3.5)); i < hn; i++) helices.push(newHelix(false));
+      for (let j = 0, mn = Math.max(2, Math.round(DENSITY / 2.6)); j < mn; j++) mols.push(newMol(false));
+    }
+
+    /* Reseeds only when the width changes. A height-only change (the web
+       fonts landing and growing the hero) just resizes the backing store,
+       so nothing jumps. */
+    function resize() {
+      const r = cv.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      const reseed = Math.abs(r.width - W) > 1 || !cols.length && !helices.length;
+      W = r.width; H = r.height;
+      cv.width = Math.max(1, W * dpr); cv.height = Math.max(1, H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (reseed) seed();
+    }
+
+    /* ---- one molecule: just the artwork, turned slowly ---- */
+    function drawMol(m, a) {
+      ctx.save();
+      ctx.translate(m.x, m.y);
+      ctx.rotate(m.rot);
+      ctx.globalAlpha = a * m.lvl;
+      ctx.drawImage(m.im, -m.w / 2, -m.h / 2, m.w, m.h);
+      ctx.restore();
+    }
+
+    /* ---- one helix, drawn segment by segment so the near strand reads
+            heavier than the far one and the twist has depth ---- */
+    function drawHelix(h, a) {
+      const step = 5, k = 0.062;
+      let p1 = null, p2 = null;
+      ctx.strokeStyle = INK;
+      for (let t = 0; t <= h.len; t += step) {
+        const yy = h.y + t, ph = t * k + h.ph;
+        const sn = Math.sin(ph), cs = Math.cos(ph);
+        const q1 = [h.x + sn * h.amp, yy], q2 = [h.x - sn * h.amp, yy];
+        if (p1) {
+          const near = (cs + 1) / 2;
+          ctx.globalAlpha = a * (0.45 + 0.55 * near);
+          ctx.lineWidth = h.w * (0.55 + 0.6 * near);
+          ctx.beginPath(); ctx.moveTo(p1[0], p1[1]); ctx.lineTo(q1[0], q1[1]); ctx.stroke();
+          ctx.globalAlpha = a * (0.45 + 0.55 * (1 - near));
+          ctx.lineWidth = h.w * (0.55 + 0.6 * (1 - near));
+          ctx.beginPath(); ctx.moveTo(p2[0], p2[1]); ctx.lineTo(q2[0], q2[1]); ctx.stroke();
+        }
+        p1 = q1; p2 = q2;
+      }
+      /* Base pairs. One bar per rung that changes colour at the midpoint, so a
+         pair reads as two bases meeting rather than a single span. The rung
+         shortens to nothing at each crossover on its own. That's the twist
+         doing the work, not a separate effect. */
+      let idx = 0;
+      for (let t = 0; t <= h.len; t += step * 3, idx++) {
+        const bp = h.seq[idx];
+        if (!bp) continue;
+        const yy = h.y + t, ph = t * k + h.ph, sn = Math.sin(ph);
+        const ra = a * (0.3 + 0.7 * Math.abs(sn)) * bp.lift;
+        if (ra < 0.004) continue;
+        const reach = sn * h.amp;
+        const x1 = h.x + reach, x2 = h.x - reach;
+
+        if (Math.abs(reach) > 0.8) {
+          ctx.globalAlpha = ra;
+          ctx.lineWidth = h.w * 0.75;
+          ctx.strokeStyle = bp.l;
+          ctx.beginPath(); ctx.moveTo(x1, yy); ctx.lineTo(h.x, yy); ctx.stroke();
+          ctx.strokeStyle = bp.r;
+          ctx.beginPath(); ctx.moveTo(x2, yy); ctx.lineTo(h.x, yy); ctx.stroke();
+        }
+
+        /* the base itself, sitting on the backbone */
+        ctx.globalAlpha = Math.min(1, ra * 1.2);
+        ctx.fillStyle = bp.l;
+        ctx.beginPath(); ctx.arc(x1, yy, h.w * 0.8, 0, TAU); ctx.fill();
+        ctx.fillStyle = bp.r;
+        ctx.beginPath(); ctx.arc(x2, yy, h.w * 0.8, 0, TAU); ctx.fill();
+      }
+      ctx.strokeStyle = INK; ctx.fillStyle = INK;
+    }
+
+    function frame() {
+      ctx.clearRect(0, 0, W, H);
+
+      /* falling code */
+      ctx.lineWidth = 0.9;
+      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+      ctx.font = "13px 'IBM Plex Mono', ui-monospace, monospace";
+      cols.forEach(c => {
+        for (let k = 0; k < 8; k++) {
+          const yy = c.y - k * 13;
+          if (yy < -13 || yy > H) continue;
+          const a = INTENSITY * W_CODE * fade(yy) * (1 - k / 8);
+          if (a <= 0.002) continue;
+          ctx.globalAlpha = a;
+          ctx.fillStyle = (k === 0 && Math.random() < 0.35) ? ACCENT : INK;
+          ctx.fillText(glyph(), c.x, yy);
+        }
+        c.y += c.sp;
+        if (c.y - 8 * 13 > H * FADE) { c.y = rnd(-60, -10); c.sp = rnd(0.18, 0.55); }
+      });
+
+      /* helices */
+      helices.forEach((h, i) => {
+        const a = INTENSITY * W_DNA * fade(h.y + h.len / 2);
+        if (a > 0.002) drawHelix(h, a);
+        h.y += h.sp; h.ph += 0.006;
+        if (h.y > H * FADE) helices[i] = newHelix(true);
+      });
+
+      /* molecules */
+      if (art.length) mols.forEach((m, i) => {
+        if (!m.im && !dressMol(m)) return;
+        const a = INTENSITY * W_MOL * fade(m.y);
+        if (a > 0.002) drawMol(m, a);
+        m.y += m.sp; m.rot += m.vr;
+        if (m.y - Math.max(m.w, m.h) / 2 > H * FADE) mols[i] = newMol(true);
+      });
+
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = INK; ctx.fillStyle = INK;
+    }
+
+    function loop() { frame(); raf = requestAnimationFrame(loop); }
+    function start() { if (!raf && !reduce) loop(); }
+    function stop()  { if (raf) { cancelAnimationFrame(raf); raf = null; } }
+
+    resize();
+
+    /* load the artwork; anything missing is simply never used */
+    MOL_SRC.forEach(src => {
+      const im = new Image();
+      im.decoding = 'async';
+      im.onload = () => {
+        if (im.naturalWidth && im.naturalHeight) art.push(im);
+        if (reduce) frame();          /* static frame needs a redraw once art lands */
+      };
+      im.onerror = () => {};          /* not uploaded yet: skip it, don't break */
+      im.src = src;
+    });
+
+    if (reduce) {
+      frame();
+    } else {
+      /* onScreen mirrors the observer, so returning to the tab only restarts
+         the loop when the hero is actually in view. */
+      let onScreen = false;
+      new IntersectionObserver(es => {
+        es.forEach(e => { onScreen = e.isIntersecting; onScreen ? start() : stop(); });
+      }, { threshold: 0 }).observe(cv);
+      document.addEventListener('visibilitychange', () => {
+        (document.hidden || !onScreen) ? stop() : start();
+      });
+    }
+
+    /* Watch the canvas itself rather than the window: the hero changes height
+       when the fonts load, and no window resize event fires for that. */
+    let t;
+    new ResizeObserver(() => {
+      clearTimeout(t);
+      t = setTimeout(() => { resize(); if (reduce) frame(); }, 150);
+    }).observe(cv);
+  })();
+</script>
+</body>
+</html>
